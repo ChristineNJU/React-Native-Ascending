@@ -3,12 +3,11 @@ var {
     AppRegistry,
     StyleSheet,
     Text,
-    TouchableHighlight,
     View,
     Image
     } = require('react-native');
 import ScrollableTabView, { DefaultTabBar, } from 'react-native-scrollable-tab-view';
-var Title = require('../elements/Title');
+var StockSingleBasicGraph = require('./StockSingleBasicGraph');
 
 //class StockSingle extends Component {
 var StockSingle = React.createClass({
@@ -76,7 +75,7 @@ var StockSingle = React.createClass({
                 <View style={{height:500}}>
                     <ScrollableTabView tabBarPosition="top" initialPage={0} page={0} tabBarUnderlineColor={colors.yellow}
                                        renderTabBar={()=><DefaultTabBar backgroundColor={colors.blue} activeTextColor={colors.yellow} inactiveTextColor={colors.white}/>}>
-                        <Title tabLabel="基本图表" name={'K线图'}/>
+                        <StockSingleBasicGraph tabLabel="基本图表"/>
                         <Text tabLabel="分析评估" >分析评估</Text>
                         <Text tabLabel="走势预测" >走势预测</Text>
                         <Text tabLabel="实时分析" >实时分析</Text>
@@ -93,8 +92,6 @@ const colors = {
     blue:'#031b2f',
     white:'#ffffff'
 };
-
-AppRegistry.registerComponent('StockSingle', () => StockSingle);
 
 var styles = StyleSheet.create({
     basicInfo: {
@@ -123,4 +120,6 @@ var styles = StyleSheet.create({
         justifyContent:'space-between'
     }
 });
+
+AppRegistry.registerComponent('StockSingle', () => StockSingle);
 module.exports = StockSingle;
