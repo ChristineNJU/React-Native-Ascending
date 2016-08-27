@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 var ScrollableTabView = require('react-native-scrollable-tab-view');
-var StockSingle = require('./StockSingle');
+var StockSingle = require('./js/pages/StockSingle');
 import {AppRegistry, Text, TouchableHighlight, View,Image} from 'react-native';
 
 export default class Ascending extends Component {

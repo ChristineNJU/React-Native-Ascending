@@ -7,8 +7,8 @@ var {
     View,
     Image
     } = require('react-native');
-var ScrollableTabView = require('react-native-scrollable-tab-view');
-
+import ScrollableTabView, { DefaultTabBar, } from 'react-native-scrollable-tab-view';
+var Title = require('../elements/Title');
 
 //class StockSingle extends Component {
 var StockSingle = React.createClass({
@@ -28,7 +28,7 @@ var StockSingle = React.createClass({
             <View>
                 <View style={styles.basicInfo}>
                     <View style={{flexDirection:'row'}}>
-                        <Image source={require('./img/1.png')} resizeMode={'contain'} style={[styles.industryIcon]}/>
+                        <Image source={require('../../img/1.png')} resizeMode={'contain'} style={[styles.industryIcon]}/>
                         <View style={{paddingLeft:10}}>
                             <Text style={[{fontSize:20,color:'#ffde00'}]}>
                                 {'浦发银行'}
@@ -72,29 +72,26 @@ var StockSingle = React.createClass({
                     </View>
                 </View>
 
-                <ScrollableTabView tabBarPosition="top" style={{height:400}}>
-                    <Title tabLabel="基本图表" name={'K线图'}/>
-                    <Text tabLabel="分析评估" >分析评估</Text>
-                    <Text tabLabel="走势预测" >走势预测</Text>
-                    <Text tabLabel="实时分析" >实时分析</Text>
-                    <Text tabLabel="公司资讯" >公司资讯</Text>
-                </ScrollableTabView>
-
+                <View style={{height:500}}>
+                    <ScrollableTabView tabBarPosition="bottom" initialPage={0}
+                                       renderTabBar={()=><DefaultTabBar backgroundColor={colors.blue} activeTextColor={colors.yellow} inactiveTextColor={colors.white}/>}>
+                        <Title tabLabel="基本图表" name={'K线图'}/>
+                        <Text tabLabel="分析评估" >分析评估</Text>
+                        <Text tabLabel="走势预测" >走势预测</Text>
+                        <Text tabLabel="实时分析" >实时分析</Text>
+                        <Text tabLabel="公司资讯" >公司资讯</Text>
+                    </ScrollableTabView>
+                </View>
             </View>
         )
     }
 });
 
-var Title = React.createClass({
-    render:function(){
-        return (
-            <View style={[styles.title]}>
-                <Image style={[styles.titleIcon]} source = {require('./img/logo_s.png')} resizeMode={'contain'}/>
-                <Text style={[styles.titleText]}>{this.props.name}</Text>
-            </View>
-        )
-    }
-});
+const colors = {
+    yellow:'#ffde00',
+    blue:'#031b2f',
+    white:'#ffffff'
+};
 
 AppRegistry.registerComponent('StockSingle', () => StockSingle);
 
@@ -123,19 +120,6 @@ var styles = StyleSheet.create({
         backgroundColor: '#031b2f',
         flexDirection:'row',
         justifyContent:'space-between'
-    },
-    title:{
-        paddingLeft:10,
-        flexDirection:'row',
-        alignItems:'center'
-    },
-    titleIcon:{
-        width:25
-    },
-    titleText:{
-        paddingLeft:10,
-        color:'#ffde00',
-        fontSize:18
     }
 });
 module.exports = StockSingle;
