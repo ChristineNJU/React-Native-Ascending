@@ -24,8 +24,9 @@ var StockSingle = React.createClass({
     //},
 
     render: function(){
+        console.log('in stock single');
         return(
-            <View>
+            <View style={{backgroundColor:colors.blue}}>
                 <View style={styles.basicInfo}>
                     <View style={{flexDirection:'row'}}>
                         <Image source={require('../../img/1.png')} resizeMode={'contain'} style={[styles.industryIcon]}/>
@@ -73,7 +74,7 @@ var StockSingle = React.createClass({
                 </View>
 
                 <View style={{height:500}}>
-                    <ScrollableTabView tabBarPosition="bottom" initialPage={0}
+                    <ScrollableTabView tabBarPosition="top" initialPage={0} page={0} tabBarUnderlineColor={colors.yellow}
                                        renderTabBar={()=><DefaultTabBar backgroundColor={colors.blue} activeTextColor={colors.yellow} inactiveTextColor={colors.white}/>}>
                         <Title tabLabel="基本图表" name={'K线图'}/>
                         <Text tabLabel="分析评估" >分析评估</Text>
