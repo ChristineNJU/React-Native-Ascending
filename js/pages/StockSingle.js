@@ -8,8 +8,11 @@ var {
     } = require('react-native');
 import ScrollableTabView, { DefaultTabBar, } from 'react-native-scrollable-tab-view';
 var StockSingleBasicGraph = require('./StockSingleBasicGraph');
+var StockSingleEvaluate = require('./StockSingleEvaluate');
+var StockSingleForecast = require('./StockSingleForecast');
+var StockSingleDynamic = require('./StockSingleDynamic');
+var StockSingleCompany = require('./StockSingleCompany');
 
-//class StockSingle extends Component {
 var StockSingle = React.createClass({
 
     //getDefaultProps:function(){
@@ -23,7 +26,7 @@ var StockSingle = React.createClass({
     //},
 
     render: function(){
-        console.log('in stock single');
+        // console.log('in stock single');
         return(
             <View style={{backgroundColor:colors.blue}}>
                 <View style={styles.basicInfo}>
@@ -73,13 +76,13 @@ var StockSingle = React.createClass({
                 </View>
 
                 <View style={{height:500}}>
-                    <ScrollableTabView tabBarPosition="top" initialPage={0} page={0} tabBarUnderlineColor={colors.yellow}
-                                       renderTabBar={()=><DefaultTabBar backgroundColor={colors.blue} activeTextColor={colors.yellow} inactiveTextColor={colors.white}/>}>
+                    <ScrollableTabView tabBarPosition="top" initialPage={3} page={3} tabBarUnderlineColor={colors.yellow}
+                                       renderTabBar={()=><DefaultTabBar backgroundColor={colors.blue} activeTextColor={colors.yellow} inactiveTextColor={colors.text}/>}>
                         <StockSingleBasicGraph tabLabel="基本图表"/>
-                        <Text tabLabel="分析评估" >分析评估</Text>
-                        <Text tabLabel="走势预测" >走势预测</Text>
-                        <Text tabLabel="实时分析" >实时分析</Text>
-                        <Text tabLabel="公司资讯" >公司资讯</Text>
+                        <StockSingleEvaluate tabLabel="分析评估" />
+                        <StockSingleForecast tabLabel="走势预测" />
+                        <StockSingleDynamic tabLabel="实时分析" />
+                        <StockSingleCompany tabLabel="公司资讯" />
                     </ScrollableTabView>
                 </View>
             </View>
@@ -90,7 +93,8 @@ var StockSingle = React.createClass({
 const colors = {
     yellow:'#ffde00',
     blue:'#031b2f',
-    white:'#ffffff'
+    white:'#ffffff',
+    text:'#bac7d4'
 };
 
 var styles = StyleSheet.create({

@@ -1,13 +1,20 @@
-export default ChartStyle = {
+import Dimensions from 'Dimensions';
+var {windowWidth,windowHeight} = Dimensions.get('window');
+
+const ChartStyle = {
+
+    'chartWrapper':{
+        //height:200
+    },
 
     //柱状图
-    bar:{
-        width: 300,
-        height: 300,
+    'volume':{
+        width: windowWidth-45,
+        height: 100,
         margin: {
             top: 20,
             left: 25,
-            bottom: 50,
+            bottom: 20,
             right: 20
         },
         color: '#2980B9',
@@ -32,7 +39,7 @@ export default ChartStyle = {
             }
         },
         axisY: {
-            showAxis: true,
+            showAxis: false,
             showLines: true,
             showLabels: true,
             showTicks: true,
@@ -48,7 +55,7 @@ export default ChartStyle = {
     },
 
     //饼图
-    pie:{
+    'pie':{
         margin: {
             top: 20,
             left: 20,
@@ -74,10 +81,10 @@ export default ChartStyle = {
         }
     },
 
-    //折线图
-    stockLine:{
-        width: 250,
-        height: 250,
+    
+    specialForecast:{
+         width: 150,
+        height: 100,
         color: '#2980B9',
         margin: {
             top: 10,
@@ -90,7 +97,7 @@ export default ChartStyle = {
             duration: 200
         },
         axisX: {
-            showAxis: true,
+            showAxis: false,
             showLines: true,
             showLabels: true,
             showTicks: true,
@@ -105,7 +112,54 @@ export default ChartStyle = {
             }
         },
         axisY: {
-            showAxis: true,
+            showAxis: false,
+            showLines: true,
+            showLabels: true,
+            showTicks: true,
+            zeroAxis: false,
+            orient: 'left',
+            tickValues: [],
+            label: {
+                fontFamily: 'Arial',
+                fontSize: 8,
+                fontWeight: true,
+                fill: '#34495E'
+            }
+        }
+    },
+
+    //折线图
+    stockLine:{
+        width: windowWidth-45,
+        height: 150,
+        color: '#2980B9',
+        margin: {
+            top: 10,
+            left: 35,
+            bottom: 30,
+            right: 10
+        },
+        animate: {
+            type: 'delayed',
+            duration: 200
+        },
+        axisX: {
+            showAxis: false,
+            showLines: true,
+            showLabels: true,
+            showTicks: true,
+            zeroAxis: false,
+            orient: 'bottom',
+            tickValues: [],
+            label: {
+                fontFamily: 'Arial',
+                fontSize: 8,
+                fontWeight: true,
+                fill: '#34495E'
+            }
+        },
+        axisY: {
+            showAxis: false,
             showLines: true,
             showLabels: true,
             showTicks: true,
@@ -166,63 +220,10 @@ export default ChartStyle = {
         }
     },
 
-    //散点图
-    scatterplot:{
-        width: 290,
-        height: 290,
-        r: 2,
-        margin: {
-            top: 20,
-            left: 40,
-            bottom: 30,
-            right: 30
-        },
-        fill: "#2980B9",
-        stroke: "#3E90F0",
-        animate: {
-            type: 'delayed',
-            duration: 200
-        },
-        label: {
-            fontFamily: 'Arial',
-            fontSize: 8,
-            fontWeight: true,
-            fill: '#34495E'
-        },
-        axisX: {
-            showAxis: true,
-            showLines: true,
-            showLabels: true,
-            showTicks: true,
-            zeroAxis: false,
-            orient: 'bottom',
-            label: {
-                fontFamily: 'Arial',
-                fontSize: 8,
-                fontWeight: true,
-                fill: '#34495E'
-            }
-        },
-        axisY: {
-            showAxis: true,
-            showLines: true,
-            showLabels: true,
-            showTicks: true,
-            zeroAxis: false,
-            orient: 'left',
-            label: {
-                fontFamily: 'Arial',
-                fontSize: 8,
-                fontWeight: true,
-                fill: '#34495E'
-            }
-        }
-    },
-
     //雷达图
     radar:{
-        width: 290,
-        height: 290,
+        width: 320,
+        height: 280,
         margin: {
             top: 20,
             left: 20,
@@ -241,7 +242,10 @@ export default ChartStyle = {
             fontFamily: 'Arial',
             fontSize: 14,
             fontWeight: true,
-            fill: '#34495E'
+            fill: '#bac7d4',
+            fontStyle:{
+                color:'white'
+            }
         }
     },
 
@@ -271,5 +275,6 @@ export default ChartStyle = {
         }
 
     }
-
 }
+
+module.exports = ChartStyle;

@@ -8,7 +8,7 @@ var {
 
 var Title = React.createClass({
     render:function(){
-        console.log('11111');
+        // console.log('11111');
         return (
             <View style={[styles.title]}>
                 <Image style={[styles.titleIcon]} source = {require('../../img/logo_s.png')} resizeMode={'contain'}/>
