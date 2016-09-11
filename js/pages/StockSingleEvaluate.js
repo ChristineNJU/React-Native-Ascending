@@ -14,39 +14,43 @@ var chartStyle = require('../datas/ChartStyle');
 
 var StockSingleEvaluate = React.createClass({
 	render: function(){
-
+		var relative = this.props.relative;
+		var radarData = [];
+		radarData[0] = this.props.stockGrade;
+		// console.log(this.props.stockGrade);
+		// console.log(radarData);
 		// console.log(chartStyle.radar);
 		return(
 			<ScrollView>
 				<Title name={'股票评分'} />
 				<Radar 
-					data={chartData.evaluate}
+					data={radarData}
 					options={chartStyle.radar}/>
 
 				<Title name={'大盘相关性分析'} />
 				<View style={[styles.label]}>
 					<Text style={[styles.text]}>{'Beta系数:'}</Text>
-					<Text style={[styles.text]}>{'0.0'}</Text>	
+					<Text style={[styles.text]}>{relative.beta}</Text>	
 				</View>
 				<View style={[styles.label]}>
 					<Text style={[styles.text]}>{'综合相关性:'}</Text>
-					<Text style={[styles.text]}>{'0.56836'}</Text>	
+					<Text style={[styles.text]}>{relative.corrcoef}</Text>	
 				</View>
 				<View style={[styles.label]}>
 					<Text style={[styles.text]}>{'开盘价相关性:'}</Text>
-					<Text style={[styles.text]}>{'0.861695'}</Text>	
+					<Text style={[styles.text]}>{relative.open_corrcoef}</Text>	
 				</View>
 				<View style={[styles.label]}>
 					<Text style={[styles.text]}>{'成交量相关性:'}</Text>
-					<Text style={[styles.text]}>{'0.32688'}</Text>	
+					<Text style={[styles.text]}>{relative.volume_corrcoef}</Text>	
 				</View>
 				<View style={[styles.label]}>
 					<Text style={[styles.text]}>{'涨跌幅相关性:'}</Text>
-					<Text style={[styles.text]}>{'0.516504'}</Text>	
+					<Text style={[styles.text]}>{relative.devia_corrcoef}</Text>	
 				</View>
 
 
-				<View  style={{height:120,backgroundColor:'#031b2f'}}></View>
+				<View  style={{height:60,backgroundColor:'#031b2f'}}></View>
  			</ScrollView>
 		)
 	}

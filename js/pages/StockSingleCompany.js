@@ -5,72 +5,171 @@ var {
     StyleSheet,
     Text,
     View,
-    Image
+    Image,
+    ListView
     } = require('react-native');
 var Title = require('../components/Title');
 var TitleSecond = require('../components/TitleSecond');
 import {Bar,Pie,StockLine,SmoothLine,Scatterplot,Radar,Tree} from 'react-native-pathjs-charts';
-
-var chartStyle = require('../datas/ChartStyle');
+var TableRow = require('../components/TableRow');
 
 var StockSingleCompany = React.createClass({
+
+
+    MeiguRow:function(data){
+        var item = [data.date,data.jqmgly,data.tbmgly,data.mgjzc_tzh];
+
+        return(
+            <TableRow style={{color:'#bac7d4',flex:1}} 
+                content={item} />
+        );
+    },
+
+    YingliRow:function(data){
+        var item = [data.date,data.jqjzcsyl,data.zzczzl,data.zyywlr];
+        return(
+            <TableRow style={{color:'#bac7d4',flex:1}} 
+                content={item} />
+        );
+    },
+
+    ChengzhangRow:function(data){
+        var item = [data.date,data.jlrzzl,data.jzczzl,data.zzczzl];
+
+        return(
+            <TableRow style={{color:'#bac7d4',flex:1}} 
+                content={item} />
+        );
+    },
+
+    newsOne :function(news){
+        return (
+            <View style={{paddingLeft:10,paddingRight:10,paddingBottom:10}}>
+                <Text style={[styles.text]}>{news.title}</Text>
+                <Text style={[styles.text]}>{news.date}</Text>
+            </View>
+        );
+    },
+
+    reportOne: function(report){
+        return(
+             <View style={{paddingLeft:10,paddingRight:10,paddingBottom:10}}>
+                <Text style={[styles.text]}>{this.InfoTrans(report.author,report.date)}</Text>
+                <Text style={[styles.text]}>{report.title}</Text>
+            </View>
+        );
+    },
+
+    getInitialState: function(){
+        var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        var ds2 = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        // console.log(this.props.news);
+        return{
+            newsSource:ds.cloneWithRows(this.props.news),
+            reportSource:ds.cloneWithRows(this.props.reports),
+            season:ds.cloneWithRows(this.props.season),
+        };
+    },
+
+    InfoTrans: function(author,date){
+        return author+' '+date;
+    },
+
 	render: function(){
-		return(
+        var stockInfo = this.props.stockInfo;
+
+        return(
             <ScrollView>
                 <Title name={'公司简介'} />
                 <View style={{paddingLeft:10,paddingRight:10}}>
-                    <Text style={[styles.text,{paddingBottom:5}]}>上市日期：1999-11-10</Text>
-                    <Text style={[styles.text,{paddingBottom:5}]}>公司状态：上市</Text>
-                    <Text style={[styles.text,{paddingBottom:5}]}>公司描述：吸收公众存款；发放短期、中期和长期贷款；办理结算；办理票据贴现；
-                    发行金融债券；代理发行、代理兑付、承销政府债券；买卖政府债券；同业拆借；提供信用
-                    证服务及担保；代理收付款项及代理保险业务；提供保管箱服务。外汇存款；外汇贷款；外
-                    汇汇款；外币兑换；国际结算；同业外汇拆借；，外汇票据的承兑和贴现；外汇借款；外汇
-                    担保；结汇、售汇；买卖和代理买卖股票以外的外币有价证券；自营外汇买卖；代客外汇买卖；
-                    资信调查、咨询、见证业务；离岸银行业务。经中国人民银行批准的其他业务。</Text>
+                    <Text style={[styles.text,{paddingBottom:5}]}>上市日期：{stockInfo.listDate}</Text>
+                    <Text style={[styles.text,{paddingBottom:5}]}>公司状态：{stockInfo.status}</Text>
+                    <Text style={[styles.text,{paddingBottom:5}]}>公司描述：{stockInfo.description}</Text>
                 </View>
 
 
                 <Title name={'新闻公告'} />
-                <View style={{paddingLeft:10,paddingRight:10,paddingBottom:5}}>
-                    <Text style={[styles.text]}>2016-08-24 22:25:36</Text>
-                    <Text style={[styles.text]}>{'监管重拳突至！6000亿"万能险"将陆续撤出A股 涉64股'}</Text>
-                </View>
-                <View style={{paddingLeft:10,paddingRight:10,paddingBottom:5}}>
-                    <Text style={[styles.text]}>2016-08-24 22:25:36</Text>
-                    <Text style={[styles.text]}>{'监管重拳突至！6000亿"万能险"将陆续撤出A股 涉64股'}</Text>
-                </View>
+                <ListView
+                    dataSource={this.state.newsSource}
+                    renderRow={this.newsOne} />
 
                 <Title name={'研究报告'} />
-                <View style={{paddingLeft:10,paddingRight:10,paddingBottom:5}}>
-                    <Text style={[styles.text]}>中信建投证券 2016-08-12</Text>
-                    <Text style={[styles.text]}>浦发银行:零售板块发力,中收增速喜人</Text>
-                </View>
+                <ListView
+                    dataSource={this.state.reportSource}
+                    renderRow={this.reportOne} />
+                
 
                 <Title name={'盈利能力'} />
                 <TitleSecond name={'每股指标'} />
-                <StockLine
-                    data={chartData.every}
-                    options={chartStyle.stockLine}
-                    xKey='x'
-                    yKey='y'/>
+                <TableRow content={['日期','加权每股利益','调整后每股收益','调整后每股净资产']} />
+                <ListView
+                    dataSource={this.state.season}
+                    renderRow={this.MeiguRow} />
 
                 <TitleSecond name={'盈利能力'} />
-                <StockLine
-                    data={chartData.every}
-                    options={chartStyle.stockLine}
-                    xKey='x'
-                    yKey='y'/>
+                <TableRow content={['日期','加权净资产收益率','总资产净利润率','主营业务利润率']} />
+                <ListView
+                    dataSource={this.state.season}
+                    renderRow={this.YingliRow} />
+                
 
                 <TitleSecond name={'成长能力'} />
-                <StockLine
-                    data={chartData.every}
-                    options={chartStyle.stockLine}
-                    xKey='x'
-                    yKey='y'/>
+                <TableRow content={['日期','净利润增长率','净资产增长率','总资产增长率']} />
+                <ListView
+                    dataSource={this.state.season}
+                    renderRow={this.ChengzhangRow} />
+                
 
-                <View  style={{height:100,backgroundColor:'#031b2f'}}></View>
+                <View  style={{height:60,backgroundColor:'#031b2f'}}></View>
             </ScrollView>
-		)
+        )
+
+		// return(
+  //           <ScrollView>
+  //               <Title name={'公司简介'} />
+  //               <View style={{paddingLeft:10,paddingRight:10}}>
+  //                   <Text style={[styles.text,{paddingBottom:5}]}>上市日期：{stockInfo.listDate}</Text>
+  //                   <Text style={[styles.text,{paddingBottom:5}]}>公司状态：{stockInfo.status}</Text>
+  //                   <Text style={[styles.text,{paddingBottom:5}]}>公司描述：{stockInfo.description}</Text>
+  //               </View>
+
+
+  //               <Title name={'新闻公告'} />
+  //               <ListView
+  //                   dataSource={this.state.newsSource}
+  //                   renderRow={this.newsOne} />
+
+  //               <Title name={'研究报告'} />
+  //               <ListView
+  //                   dataSource={this.state.reportSource}
+  //                   renderRow={this.reportOne} />
+                
+
+  //               <Title name={'盈利能力'} />
+  //               <TitleSecond name={'每股指标'} />
+  //               <StockLine
+  //                   data={chartData.every}
+  //                   options={chartStyle.stockLine}
+  //                   xKey='x'
+  //                   yKey='y'/>
+
+  //               <TitleSecond name={'盈利能力'} />
+  //               <StockLine
+  //                   data={chartData.every}
+  //                   options={chartStyle.stockLine}
+  //                   xKey='x'
+  //                   yKey='y'/>
+
+  //               <TitleSecond name={'成长能力'} />
+  //               <StockLine
+  //                   data={chartData.every}
+  //                   options={chartStyle.stockLine}
+  //                   xKey='x'
+  //                   yKey='y'/>
+
+  //               <View  style={{height:60,backgroundColor:'#031b2f'}}></View>
+  //           </ScrollView>
+		// )
 	}
 });
 

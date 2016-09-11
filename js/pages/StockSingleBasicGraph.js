@@ -9,264 +9,147 @@ var {
     Image
     } = require('react-native');
 var Title = require('../components/Title');
-import {Bar,Pie,StockLine,SmoothLine,Scatterplot,Radar,Tree} from 'react-native-pathjs-charts';
-
-var chartStyle = require('../datas/ChartStyle');
+var urls = require('../datas/Urls');
+var TableRow = require('../components/TableRow');
 
 var StockSingleBasicGraph = React.createClass({
-    render:function(){
+
+    getDefaultProps: function(){
+       return {
+           stockId:'sh600004',
+       };
+    },
+
+    OneBasicRow:function(data){
+        var item = [data.dateNum,data.open,data.close,data.high,data.low,data.volume,data.amount];
+
         return(
+            <TableRow style={{color:'#bac7d4',flex:1}} 
+                content={item} />
+        );
+    },
+
+    OneMACDRow:function(data){
+        var item = [data.dateNum,data.macd,data.dif,data.dea,data.atr];
+
+        return(
+            <TableRow style={{color:'#bac7d4',flex:1}} 
+                content={item} />
+        );
+    },
+
+    OneRSIRow:function(data){
+        var item = [data.dateNum,data.rsi6,data.rsi12,data.rsi24];
+
+        return(
+            <TableRow style={{color:'#bac7d4',flex:1}} 
+                content={item} />
+        );
+    },
+
+    OneKDJRow:function(data){
+        var item = [data.dateNum,data.slowK,data.slowD,data.slowJ];
+
+        return(
+            <TableRow style={{color:'#bac7d4',flex:1}} 
+                content={item} />
+        );
+    },
+
+    OneBOLLRow:function(data){
+        var item = [data.dateNum,data.boll_upper,data.boll_middle,data.boll_low];
+
+        return(
+            <TableRow style={{color:'#bac7d4',flex:1}} 
+                content={item} />
+        );
+    },
+
+    componentWillMount: async function(){
+        this.loadData();
+    },
+
+    loadData: async function(){
+        await fetch(urls.tableData+this.props.stockId)
+        .then((response)=>response.json())
+        .then((responseData)=>{
+            // console.log(responseData.allInfo);
+            this.setState({
+                allInfo:this.state.allInfo.cloneWithRows(responseData.allInfo),
+            });
+            // console.log(this.state.allInfo);
+        }).catch((error)=>{
+            console.error(error);
+        });
+    },
+
+    getInitialState: function(){
+        return{
+            allInfo:new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
+        };
+    },
+
+    render:function(){
+         return(
             <ScrollView >
-                <Title name={'K线图'}/>
+                <Title name={'基础数据'}/>
+                <TableRow content={['日期','开盘','收盘','最高','最低','成交量','成交金额']} />
+                <ListView
+                    dataSource={this.state.allInfo}
+                    renderRow={this.OneBasicRow} />
 
+                <Title name={'MACD(指数平滑异同平均数)'} />
+                <TableRow content={['日期','MACD','DIFF','ATR','DEA']} />
+                <ListView
+                    dataSource={this.state.allInfo}
+                    renderRow={this.OneMACDRow} />
                 
-                <Title name={'成交量·成交金额'} />
-                <Bar
-                    data={chartData.volume}
-                    options={chartStyle.volume}
-                    accessorKey='a'/>
-                <StockLine
-                    data={chartData.total}
-                    options={chartStyle.stockLine}
-                    xKey='x'
-                    yKey='y'/>
-                
-
-                <Title name={'MACD(指数平滑异同平均线)'} />
-                <Bar
-                    data={chartData.volume}
-                    options={chartStyle.volume}
-                    accessorKey='a'/>
 
                 <Title name={'RSI(相对强弱指标)'} />
-                <StockLine
-                    data={chartData.total}
-                    options={chartStyle.stockLine}
-                    xKey='x'
-                    yKey='y'/>
+                <TableRow content={['日期','RSI6','RSI12','RSI24']} />
+                <ListView
+                    dataSource={this.state.allInfo}
+                    renderRow={this.OneRSIRow} />
+                
 
                 <Title name={'KDJ(随机指标)'} />
-                <StockLine
-                    data={chartData.total}
-                    options={chartStyle.stockLine}
-                    xKey='x'
-                    yKey='y'/>
+                <TableRow content={['日期','Slow K','Slow D','Slow J']} />
+                <ListView
+                    dataSource={this.state.allInfo}
+                    renderRow={this.OneKDJRow} />
+                
 
                 <Title name={'BOLL(布林线)'} />
-                <StockLine
-                    data={chartData.total}
-                    options={chartStyle.stockLine}
-                    xKey='x'
-                    yKey='y'/>
+                <TableRow content={['日期','value','BOLL UPPER','BOLL MIDDLE','BOLL LOW']} />
+                <ListView
+                    dataSource={this.state.allInfo}
+                    renderRow={this.OneBOLLRow} />
+                
 
                 <View  style={{height:120,backgroundColor:'#031b2f'}}></View>
             </ScrollView >
-        )
+        );
     }
 });
 
 
-var chartData = {
-    volume: [
-        [{
-            "a": 49,
-            "name": "apple"
-        }, {
-            "a": 42,
-            "name": "apple"
-        }],
-        [{
-            "a": 69,
-            "name": "banana"
-        }, {
-            "a": 62,
-            "name": "banana"
-        }],
-        [{
-            "a": 29,
-            "name": "grape"
-        }, {
-            "a": 15,
-            "name": "grape"
-        }]
-    ],
-    total: [
-            [{
-                "x": 0,
-                "y": 47782
-            }, {
-                "x": 1,
-                "y": 48497
-            }, {
-                "x": 2,
-                "y": 77128
-            }, {
-                "x": 3,
-                "y": 73413
-            }, {
-                "x": 4,
-                "y": 58257
-            }, {
-                "x": 5,
-                "y": 40579
-            }, {
-                "x": 6,
-                "y": 72893
-            }, {
-                "x": 7,
-                "y": 60663
-            }, {
-                "x": 8,
-                "y": 15715
-            }, {
-                "x": 9,
-                "y": 40305
-            }, {
-                "x": 10,
-                "y": 68592
-            }, {
-                "x": 11,
-                "y": 95664
-            }, {
-                "x": 12,
-                "y": 17908
-            }, {
-                "x": 13,
-                "y": 22838
-            }, {
-                "x": 14,
-                "y": 32153
-            }, {
-                "x": 15,
-                "y": 56594
-            }, {
-                "x": 16,
-                "y": 76348
-            }, {
-                "x": 17,
-                "y": 46222
-            }, {
-                "x": 18,
-                "y": 59304
-            }],
-            [{
-                "x": 0,
-                "y": 132189
-            }, {
-                "x": 1,
-                "y": 61705
-            }, {
-                "x": 2,
-                "y": 154976
-            }, {
-                "x": 3,
-                "y": 81304
-            }, {
-                "x": 4,
-                "y": 172572
-            }, {
-                "x": 5,
-                "y": 140656
-            }, {
-                "x": 6,
-                "y": 148606
-            }, {
-                "x": 7,
-                "y": 53010
-            }, {
-                "x": 8,
-                "y": 110783
-            }, {
-                "x": 9,
-                "y": 196446
-            }, {
-                "x": 10,
-                "y": 117057
-            }, {
-                "x": 11,
-                "y": 186765
-            }, {
-                "x": 12,
-                "y": 174908
-            }, {
-                "x": 13,
-                "y": 75247
-            }, {
-                "x": 14,
-                "y": 192894
-            }, {
-                "x": 15,
-                "y": 150356
-            }, {
-                "x": 16,
-                "y": 180360
-            }, {
-                "x": 17,
-                "y": 175697
-            }, {
-                "x": 18,
-                "y": 114967
-            }],
-            [{
-                "x": 0,
-                "y": 125797
-            }, {
-                "x": 1,
-                "y": 256656
-            }, {
-                "x": 2,
-                "y": 222260
-            }, {
-                "x": 3,
-                "y": 265642
-            }, {
-                "x": 4,
-                "y": 263902
-            }, {
-                "x": 5,
-                "y": 113453
-            }, {
-                "x": 6,
-                "y": 289461
-            }, {
-                "x": 7,
-                "y": 293850
-            }, {
-                "x": 8,
-                "y": 206079
-            }, {
-                "x": 9,
-                "y": 240859
-            }, {
-                "x": 10,
-                "y": 152776
-            }, {
-                "x": 11,
-                "y": 297282
-            }, {
-                "x": 12,
-                "y": 175177
-            }, {
-                "x": 13,
-                "y": 169233
-            }, {
-                "x": 14,
-                "y": 237827
-            }, {
-                "x": 15,
-                "y": 242429
-            }, {
-                "x": 16,
-                "y": 218230
-            }, {
-                "x": 17,
-                "y": 161511
-            }, {
-                "x": 18,
-                "y": 153227
-            }]
-        ]
-};
+// var TableRow = React.createClass({
+//     render:function(){
+
+//         var content = this.props.content;
+//         var headerContent = content.map(one => {
+//             return <Text style={{color:'#bac7d4',flex:1}}>{one}</Text>;
+            
+//         });
+//         console.log(content);
+//         return(
+//             <View style={{flexDirection:'row',paddingTop:5,paddingLeft:10,paddingRight:10}}>
+//                 {headerContent}
+//             </View>
+//         );
+//     }
+// });
+
 
 
 AppRegistry.registerComponent('StockSingleBasicGraph', () => StockSingleBasicGraph);
