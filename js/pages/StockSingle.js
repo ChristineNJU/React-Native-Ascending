@@ -4,7 +4,8 @@ var {
     StyleSheet,
     Text,
     View,
-    Image
+    Image,
+    TouchableOpacity,
     } = require('react-native');
 import ScrollableTabView, { DefaultTabBar, } from 'react-native-scrollable-tab-view';
 var StockSingleBasicGraph = require('./StockSingleBasicGraph');
@@ -26,7 +27,8 @@ var StockSingle = React.createClass({
                 fullName:'--',
                 listDate:'--',
                 status:'--',
-                description:'--'
+                description:'--',
+                industryid:'industry3_62',
             },
             current: {
                 price:'--',
@@ -104,7 +106,6 @@ var StockSingle = React.createClass({
 
     getDefaultProps: function(){
        return {
-           stockId:'sh600004'
        };
     },
 
@@ -116,7 +117,7 @@ var StockSingle = React.createClass({
     },
 
     loadData: async function(){
-        await fetch(urls.basicInfo+this.props.stockId)
+        await fetch(urls.basicInfo+this.props.id)
         .then((response)=>response.json())
         .then((responseData)=>{
             this.setState({
@@ -139,6 +140,22 @@ var StockSingle = React.createClass({
             console.error(error);
         });
     },
+    _pressButton: function() {
+        const { navigator } = this.props;
+        if(navigator) {
+            navigator.pop();
+        }
+    },
+
+    getIndustryIcon:function(id){
+        var industryid = id == '--'?'1':id;
+        console.log(industryid);
+        return <Image 
+            source={require('../../img/'+industryid+'.png')} 
+            resizeMode={'contain'} 
+            style={[styles.industryIcon]}/>;
+        
+    },
 
     render: function(){
         var stockInfo = this.state.stockInfo;
@@ -150,23 +167,26 @@ var StockSingle = React.createClass({
         // var reports = this.state.datas.reports;
         var instruction = this.state.instruction;
         var current = this.state.current;
-
-        // var stockInfo = {
-        //     name:'浦发银行',
-        //     industry:'金融业',
-        // };
-
-        // var current = {
-        //     price:'22.3',
-        //     devia_val:'0.1',
-        //     devia_per:'+2.0%'
-        // };
+        // console.log(this.props.id);
+        var url = '../../img/'+this.state.stockInfo.industryid +'.png';
 
         return(
             <View style={{backgroundColor:colors.blue}}>
+                <View style={{backgroundColor:'rgba(18,45,71,0.4)',height:40,padding:10,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+
+                    <TouchableOpacity onPress={this._pressButton.bind(this)}>
+                        <Image source={require('../../img/back.png')} resizeMode={'contain'} style={{width:20,height:20,flex:0}} />
+                    </TouchableOpacity>
+
+                    <Text style={{flex:1,textAlign:'center',color:'#bac7d4'}}>{'个股详情'}</Text>
+                </View>
                 <View style={styles.basicInfo}>
                     <View style={{flexDirection:'row'}}>
-                        <Image source={require('../../img/1.png')} resizeMode={'contain'} style={[styles.industryIcon]}/>
+                        <Image 
+                            source={require('../../img/1.png')} 
+                            resizeMode={'contain'} 
+                            style={[styles.industryIcon]}/>
+
                         <View style={{paddingLeft:10}}>
                             <Text style={[{fontSize:20,color:'#ffde00'}]}>
                                 {stockInfo.name}
@@ -218,7 +238,7 @@ var StockSingle = React.createClass({
                         
                         
                         <StockSingleBasicGraph tabLabel="基本信息"
-                            stockid = {this.props.stockid}/>
+                            stockid = {this.props.id}/>
 
                         <StockSingleEvaluate tabLabel="分析评估" 
                             stockGrade = {this.state.stockGrade} 
