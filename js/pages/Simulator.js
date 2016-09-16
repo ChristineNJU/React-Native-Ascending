@@ -17,6 +17,8 @@ var Simulator = React.createClass({
 
 		var data = [{bdate:'09-30',edate:'10-02',name:'hhh',benefit:30,big:50},
 		{bdate:'09-30',edate:'10-02',name:'hhh',benefit:30,big:50}];
+
+		data  = this.props.simulators;
 		return(
 			<View style={{backgroundColor:'#031b2f'}}>
 				<View style={{backgroundColor:'rgba(18,45,71,0.8)',height:40,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
@@ -27,9 +29,9 @@ var Simulator = React.createClass({
 	                <ScrollableTabView tabBarPosition="top" initialPage={0} page={0} tabBarUnderlineColor={colors.yellow}
 	                                   renderTabBar={()=><DefaultTabBar backgroundColor={colors.blue} activeTextColor={colors.yellow} inactiveTextColor={colors.text}/>}>
 	                    
-	                    <SimulatorTable tabLabel='进行中' data={data}/>
+	                    <SimulatorTable tabLabel='进行中' data={data} type={'1'}/>
 
-	                    <Text tabLabel='已结束'>{'已结束'}</Text>
+	                    <SimulatorTable tabLabel='已结束' data={data} type={'0'}/>
 	                   
 	                </ScrollableTabView>
 	            </View>
@@ -42,17 +44,23 @@ var Simulator = React.createClass({
 
 var SimulatorTable = React.createClass({
 
-	OneBasicRow:function(data){
-        var item = [data.name,data.bdate,data.edate,data.benefit,data.big];
-        // var item = ['111','222','333','444','555'];
 
-        return(
-            <TableRow style={{color:'#bac7d4',flex:1}} 
-                content={item} />
-        );
+
+	OneBasicRow:function(data){
+        var item = [data.tradename,data.startdate,data.enddate,data.earning,data.MaxDrawdown];
+        if(data.state == this.props.type){
+	        return(
+	            <TableRow style={{color:'#bac7d4',flex:1}} 
+	                content={item} />
+	        );        	
+        }else{
+        	return null;
+        }
+
     },
 
 	render:function(){
+		// console.log(this.props.data);
 		var tableData = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.props.data);
 		// var tableContent = 
 		return(
