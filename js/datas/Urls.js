@@ -1,4 +1,4 @@
-var server = 'http://192.168.193.1:8088/Ascending';
+var server = 'http://www.anyquant.net:40002';
 
 var request = {
 	basicInfo:server+('/stock_app.do?id='),

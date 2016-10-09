@@ -60,6 +60,7 @@ var Ascending = React.createClass( {
         });
     },
     _login:async function(){
+        console.log('in login');
         await fetch(urls.login+this.state.log_id+('&&pw=')+this.state.log_pw)
         .then((response)=>response.json())
         .then((responseData)=>{
@@ -88,13 +89,14 @@ var Ascending = React.createClass( {
         if(this.state.hasLogged == 0){
             return (
                 <View style={{width:width,height:height,backgroundColor:'#031b2f',alignItems:'center',justifyContent:'center'}}>
-
+                    <Image source={require('./img/index_logo.png')} resizeMode={'contain'} style={{width:150,height:150,flex:0,marginBottom:50}} />
                     <Text style={[styles.text]}>用户id</Text>
                     <TextInput style={{width:200,borderColor:'#bac7d4'}}
                         onChangeText={(text) => this.setState({log_id:text})} />
 
                     <Text style={[styles.text]}>密码</Text>
                     <TextInput style={{width:200}}
+                        secureTextEntry={true}
                         onChangeText={(text) => this.setState({log_pw:text})} />
 
                     <TouchableHighlight onPress={this._login.bind(this)}
@@ -115,6 +117,8 @@ var Ascending = React.createClass( {
                         <TabNavigator.Item
                             selected={this.state.selectedTab === "股票池"}
                             title="股票池"
+                            renderIcon={() => <Image source={require('./img/menu1.png')} style={[styles.tabIcon]}/>}
+                            renderSelectedIcon={() => <Image source={require('./img/menu1_targeted.png')} style={[styles.tabIcon]}/>}
                             onPress={() => this.setState({ selectedTab: "股票池" })}>
 
                             <Navigator
@@ -132,6 +136,8 @@ var Ascending = React.createClass( {
                         <TabNavigator.Item
                             selected={this.state.selectedTab === "模拟"}
                             title="模拟"
+                            renderIcon={() => <Image source={require('./img/menu2.png')} style={[styles.tabIcon]}/>}
+                            renderSelectedIcon={() => <Image source={require('./img/menu2_targeted.png')} style={[styles.tabIcon]}/>}
                             onPress={() => this.setState({ selectedTab: '模拟' })}>
                             <Simulator simulators={this.state.simulators} />
                         </TabNavigator.Item>
@@ -139,8 +145,10 @@ var Ascending = React.createClass( {
                         <TabNavigator.Item
                             selected={this.state.selectedTab === "个人"}
                             title="个人"
+                            renderIcon={() => <Image source={require('./img/menu3.png')} style={[styles.tabIcon]}/>}
+                            renderSelectedIcon={() => <Image source={require('./img/menu3_targeted.png')} style={[styles.tabIcon]}/>}
                             onPress={() => this.setState({ selectedTab: '个人' })}>
-                            <UserCenter userInfo={this.state.userInfo}/>
+                            <UserCenter userInfo={this.state.userInfo} parentRef={this}/>
                         </TabNavigator.Item>
                     </TabNavigator>
                 )
@@ -166,6 +174,10 @@ var styles = StyleSheet.create({
     button_login:{
         textAlign:'center',
         color:'#fff',
+    },
+    tabIcon:{
+        width:20,
+        height:20,
     }
 });
 

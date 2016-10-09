@@ -9,6 +9,8 @@ var {
     } = require('react-native');
 // const Picker = (Platform.OS !== 'ios') ? require('../components/PickerAndroid') : require('react-native').Picker;
 const Picker = require('react-native').Picker;
+import Dimensions from 'Dimensions';
+var {height,width} = Dimensions.get('window');
 
 var StockSingle = require('./StockSingle');
 var TableRow = require('../components/TableRow');
@@ -81,10 +83,16 @@ var StockList = React.createClass({
         // console.log(this.state.selectedPool);
         // console.log('in favorRow');
         // console.log(stockInfo);
+        var tableRowContent = [];
+        tableRowContent.push(stockInfo.stockname+stockInfo.stockid);
+        tableRowContent.push(stockInfo.close);
+        tableRowContent.push(stockInfo.deviation_per);
+
     	return(
     		<TouchableOpacity onPress={this._pressButton.bind(this,stockInfo.stockid)}
     			style={{paddingLeft:10,paddingRight:10}}>
-				<Text style={{color:'#bac7d4'}}>{stockInfo.stockid}</Text>
+                <TableRow content={tableRowContent}/>
+
 			</TouchableOpacity>
     	)
     },
@@ -113,7 +121,7 @@ var StockList = React.createClass({
         // }
         // else{
             return(
-                <View style={{backgroundColor:'#031b2f'}}>
+                <View style={{backgroundColor:'#031b2f',height:height}}>
                     <View style={{backgroundColor:'rgba(18,45,71,0.8)',height:40,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
                         <Picker style={{color:'#bac7d4',width:150}}
                             selectedValue={this.state.selectedPool}
@@ -132,7 +140,7 @@ var StockList = React.createClass({
                         </Picker>
                     </View>
                     
-                    <TableRow content={['股票','昨收','今开']} />
+                    <TableRow content={['股票','昨收','涨跌幅']} />
                     <ListView
                         dataSource={this.state.stocks}
                         renderRow={this.favorRow} />

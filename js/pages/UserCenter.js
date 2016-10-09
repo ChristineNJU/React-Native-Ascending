@@ -8,13 +8,18 @@ var {
     View,
     ListView,
     Image,
-    TouchableOpacity,
+    TouchableHighlight,
     } = require('react-native');
 import ScrollableTabView, { DefaultTabBar, } from 'react-native-scrollable-tab-view';
 
 var TableRow = require('../components/TableRow');
 
 var UserCenter = React.createClass({
+
+	_logout:function(){
+		this.props.parentRef.setState({hasLogged:0});
+	},
+
 	render:function(){
 
 		var user = this.props.userInfo;
@@ -25,8 +30,12 @@ var UserCenter = React.createClass({
 		return(
 			<View style={{width:width,height:height,backgroundColor:'#031b2f',alignItems:'center',justifyContent:'center'}}>
 				<Text style={[styles.text]}>{'id:'}{user.UserId}</Text>
+
 				<Text style={[styles.text]}>{'name:'}{user.UserName}</Text>
-				<Text style={[styles.text,{marginTop:30}]}>{'退出登录'}</Text>
+
+				<TouchableHighlight onPress={this._logout.bind(this)}>
+					<Text style={[styles.text,{marginTop:30}]}>{'退出登录'}</Text>
+				</TouchableHighlight>
 			</View>
 
 			
