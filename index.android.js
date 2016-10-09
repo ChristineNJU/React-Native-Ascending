@@ -117,8 +117,8 @@ var Ascending = React.createClass( {
                         <TabNavigator.Item
                             selected={this.state.selectedTab === "股票池"}
                             title="股票池"
-                            renderIcon={() => <Image source={require('./img/menu1.png')} style={[styles.tabIcon]}/>}
-                            renderSelectedIcon={() => <Image source={require('./img/menu1_targeted.png')} style={[styles.tabIcon]}/>}
+                            renderIcon={() => <Image source={require('./img/list.png')} style={[styles.tabIcon]}/>}
+                            renderSelectedIcon={() => <Image source={require('./img/list.png')} style={[styles.tabIcon]}/>}
                             onPress={() => this.setState({ selectedTab: "股票池" })}>
 
                             <Navigator
@@ -136,8 +136,8 @@ var Ascending = React.createClass( {
                         <TabNavigator.Item
                             selected={this.state.selectedTab === "模拟"}
                             title="模拟"
-                            renderIcon={() => <Image source={require('./img/menu2.png')} style={[styles.tabIcon]}/>}
-                            renderSelectedIcon={() => <Image source={require('./img/menu2_targeted.png')} style={[styles.tabIcon]}/>}
+                            renderIcon={() => <Image source={require('./img/time.png')} style={[styles.tabIcon]}/>}
+                            renderSelectedIcon={() => <Image source={require('./img/time.png')} style={[styles.tabIcon]}/>}
                             onPress={() => this.setState({ selectedTab: '模拟' })}>
                             <Simulator simulators={this.state.simulators} />
                         </TabNavigator.Item>
@@ -145,8 +145,8 @@ var Ascending = React.createClass( {
                         <TabNavigator.Item
                             selected={this.state.selectedTab === "个人"}
                             title="个人"
-                            renderIcon={() => <Image source={require('./img/menu3.png')} style={[styles.tabIcon]}/>}
-                            renderSelectedIcon={() => <Image source={require('./img/menu3_targeted.png')} style={[styles.tabIcon]}/>}
+                            renderIcon={() => <Image source={require('./img/user.png')} style={[styles.tabIcon]}/>}
+                            renderSelectedIcon={() => <Image source={require('./img/user.png')} style={[styles.tabIcon]}/>}
                             onPress={() => this.setState({ selectedTab: '个人' })}>
                             <UserCenter userInfo={this.state.userInfo} parentRef={this}/>
                         </TabNavigator.Item>
